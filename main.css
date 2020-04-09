@@ -1,0 +1,21 @@
+.miContenedor{
+    margin: 100px;
+}
+
+#btnActualizar{
+    display: none;
+    margin-bottom: 20px;
+}
+
+#titulo{
+    margin-left: 480px;
+    margin-bottom: 25px;
+}
+
+#btnGuardar{
+    margin-bottom: 20px;
+}
+
+#titulo2{
+    margin-left: 435px;
+}
