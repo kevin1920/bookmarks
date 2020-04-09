@@ -50,7 +50,26 @@ let guardarLink = async () => {
         </div>`
         mensaje.innerHTML = data
         listarLinks();
+        limpiarCampos();
     }
+}
+
+let eliminarLink = async (id) => {
+    let respuesta = await axios.delete(`http://localhost:3000/eliminar/${id}`)
+    console.log(respuesta)
+    let mensaje = document.getElementById("mensaje")
+    let data = ""
+    data = `<div class="alert alert-success" role="alert">
+        El link se elimino correctamente <a href="#" class="alert-link"></a>
+        </div>`
+    mensaje.innerHTML = data
+    listarLinks();
+}
+
+let limpiarCampos = () => {
+    document.getElementById("txtUrl").value = ""
+    document.getElementById("txtNombre").value = ""
+    document.getElementById("txtDescripcion").value = ""
 }
 
 listarLinks();
