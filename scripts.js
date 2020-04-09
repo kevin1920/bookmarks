@@ -1,5 +1,5 @@
 let listaLinks = []
-let idActualizar 
+let idActualizar = null
 
 let listarLinks = () => {
     axios.get("http://localhost:3000/url").then(respuesta => {
@@ -55,7 +55,7 @@ let guardarLink = async () => {
     }
 }
 
-let eliminarLink = async (id) => {
+let eliminarLink = async id => {
     let respuesta = await axios.delete(`http://localhost:3000/eliminar/${id}`)
     console.log(respuesta)
     let mensaje = document.getElementById("mensaje")
@@ -67,7 +67,7 @@ let eliminarLink = async (id) => {
     listarLinks();
 }
 
-let cargarDatos = (i) => {
+let cargarDatos = i => {
     let link = listaLinks[i]
     idActualizar = link.idlink
     document.getElementById("txtUrl").value = link.url
@@ -75,6 +75,22 @@ let cargarDatos = (i) => {
     document.getElementById("txtDescripcion").value = link.descripcion
     document.getElementById("btnGuardar").style.display = "none"
     document.getElementById("btnActualizar").style.display = "inline"
+}
+
+let actualizarLink = async () => {
+    let link = atraparDatos()
+    let respuesta = await axios.put(`http://localhost:3000/actualizar/${idActualizar}`,link)
+    console.log(respuesta)
+    let mensaje = document.getElementById("mensaje")
+    let data = ""
+    data = `<div class="alert alert-success" role="alert">
+        El link se actualizo correctamente <a href="#" class="alert-link"></a>
+        </div>`
+    mensaje.innerHTML = data
+    document.getElementById("btnGuardar").style.display = "inline"
+    document.getElementById("btnActualizar").style.display = "none"
+    limpiarCampos();
+    listarLinks();
 }
 
 let limpiarCampos = () => {
