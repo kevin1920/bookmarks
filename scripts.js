@@ -1,4 +1,5 @@
 let listaLinks = []
+let idActualizar 
 
 let listarLinks = () => {
     axios.get("http://localhost:3000/url").then(respuesta => {
@@ -13,7 +14,7 @@ let listarLinks = () => {
             data += `<td>${link.url}</td>`
             data += `<td>${link.nombre}</td>`
             data += `<td>${link.descripcion}</td>`
-            data += `<td><button type="button" onclick = "cargarDatos(${link.idlink})" class="btn btn-primary">Editar</button></td>`
+            data += `<td><button type="button" onclick = "cargarDatos(${i})" class="btn btn-primary">Editar</button></td>`
             data += `<td><button type="button" onclick = "eliminarLink(${link.idlink})" class="btn btn-primary">Eliminar</button></td>`
             data += "</tr>"
         }
@@ -64,6 +65,16 @@ let eliminarLink = async (id) => {
         </div>`
     mensaje.innerHTML = data
     listarLinks();
+}
+
+let cargarDatos = (i) => {
+    let link = listaLinks[i]
+    idActualizar = link.idlink
+    document.getElementById("txtUrl").value = link.url
+    document.getElementById("txtNombre").value = link.nombre
+    document.getElementById("txtDescripcion").value = link.descripcion
+    document.getElementById("btnGuardar").style.display = "none"
+    document.getElementById("btnActualizar").style.display = "inline"
 }
 
 let limpiarCampos = () => {
