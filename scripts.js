@@ -1,9 +1,10 @@
-
+let listaLinks = []
 
 let listarLinks = () => {
     axios.get("http://localhost:3000/url").then(respuesta => {
         console.log("Respuesta del Api")
         console.log(respuesta.data)
+        listaLinks = respuesta.data
         let data = ""
         let lista = document.getElementById("listaLinks")
         for(let i = 0; i < respuesta.data.length; i++){
@@ -20,6 +21,36 @@ let listarLinks = () => {
     }).catch(error => {
         console.log(error)
     })
+}
+
+let atraparDatos = () => {
+    let url = document.getElementById("txtUrl").value
+    let nombre = document.getElementById("txtNombre").value
+    let descripcion = document.getElementById("txtDescripcion").value
+
+    return {url: url, nombre: nombre, descripcion: descripcion}
+
+}
+
+let guardarLink = async () => {
+    let link = atraparDatos()
+    let linkExiste = listaLinks.find(x => link.url === x.url)
+    let mensaje = document.getElementById("mensaje")
+    let data = ""
+    if(linkExiste){
+        data = `<div class="alert alert-danger" role="alert">
+        El link que desea ingresar ya está en su lista <a href="#" class="alert-link"></a>
+        </div>`
+        mensaje.innerHTML = data
+    }else{
+        let respuesta = await axios.post("http://localhost:3000/insertar",link)
+        console.log(respuesta)
+        data = `<div class="alert alert-success" role="alert">
+        El link se agrego correctamente <a href="#" class="alert-link"></a>
+        </div>`
+        mensaje.innerHTML = data
+        listarLinks();
+    }
 }
 
 listarLinks();
