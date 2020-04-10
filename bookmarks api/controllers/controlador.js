@@ -40,7 +40,7 @@ let guardarInformacion = async info => {
  */
 let obtenerInformacion = async () => {
     let servicio = new ServiciPG()
-    let sql = `select idlink,url,nombre,descripcion from links`
+    let sql = `select idlink,url,nombre,descripcion from links order by idlink`
     let respuesta = await servicio.ejecutarSQL(sql)
     return respuesta;
 }
