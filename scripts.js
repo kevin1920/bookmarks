@@ -33,7 +33,7 @@ let atraparDatos = () => {
 
 }
 
-let guardarLink = async () => {
+let guardarLink = () => {
     let link = atraparDatos()
     let linkExiste = listaLinks.find(x => link.url === x.url)
     let mensaje = document.getElementById("mensaje")
@@ -44,27 +44,33 @@ let guardarLink = async () => {
         </div>`
         mensaje.innerHTML = data
     }else{
-        let respuesta = await axios.post("http://localhost:3000/insertar",link)
-        console.log(respuesta)
-        data = `<div class="alert alert-success" role="alert">
-        El link se agrego correctamente <a href="#" class="alert-link"></a>
-        </div>`
-        mensaje.innerHTML = data
-        listarLinks();
-        limpiarCampos();
+        axios.post("http://localhost:3000/insertar",link).then(respuesta => {
+            console.log(respuesta)
+            data = `<div class="alert alert-success" role="alert">
+            El link se agrego correctamente <a href="#" class="alert-link"></a>
+            </div>`
+            mensaje.innerHTML = data
+            listarLinks();
+            limpiarCampos();
+        }).catch(error => {
+            console.log(error)
+        })
     }
 }
 
-let eliminarLink = async id => {
-    let respuesta = await axios.delete(`http://localhost:3000/eliminar/${id}`)
-    console.log(respuesta)
-    let mensaje = document.getElementById("mensaje")
-    let data = ""
-    data = `<div class="alert alert-success" role="alert">
+let eliminarLink = id => {
+    axios.delete(`http://localhost:3000/eliminar/${id}`).then(respuesta => {
+        console.log(respuesta)
+        let mensaje = document.getElementById("mensaje")
+        let data = ""
+        data = `<div class="alert alert-success" role="alert">
         El link se elimino correctamente <a href="#" class="alert-link"></a>
         </div>`
-    mensaje.innerHTML = data
-    listarLinks();
+        mensaje.innerHTML = data
+        listarLinks();
+    }).catch(error => {
+        console.log(error)
+    })
 }
 
 let cargarDatos = i => {
@@ -77,20 +83,24 @@ let cargarDatos = i => {
     document.getElementById("btnActualizar").style.display = "inline"
 }
 
-let actualizarLink = async () => {
+let actualizarLink = () => {
     let link = atraparDatos()
-    let respuesta = await axios.put(`http://localhost:3000/actualizar/${idActualizar}`,link)
-    console.log(respuesta)
-    let mensaje = document.getElementById("mensaje")
-    let data = ""
-    data = `<div class="alert alert-success" role="alert">
+    axios.put(`http://localhost:3000/actualizar/${idActualizar}`,link).then(respuesta => {
+        console.log(respuesta)
+        let mensaje = document.getElementById("mensaje")
+        let data = ""
+        data = `<div class="alert alert-success" role="alert">
         El link se actualizo correctamente <a href="#" class="alert-link"></a>
         </div>`
-    mensaje.innerHTML = data
-    document.getElementById("btnGuardar").style.display = "inline"
-    document.getElementById("btnActualizar").style.display = "none"
-    limpiarCampos();
-    listarLinks();
+        mensaje.innerHTML = data
+        document.getElementById("btnGuardar").style.display = "inline"
+        document.getElementById("btnActualizar").style.display = "none"
+        limpiarCampos();
+        listarLinks();
+    }).catch(error => {
+        console.log(error)
+    })
+    
 }
 
 let limpiarCampos = () => {
