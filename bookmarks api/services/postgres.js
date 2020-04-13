@@ -1,5 +1,8 @@
 const{ Pool } = require('pg');
 
+/**
+ * Clase para la conexion a la base de datos 
+ */
 class ServicioPG{
 
     constructor(){
@@ -12,6 +15,10 @@ class ServicioPG{
         });
     }
 
+    /**
+     * Metodo que ejecuta la sentencia sql que se le pasa por parametro
+     * @param {*} sql 
+     */
    async ejecutarSQL(sql){
         let respuesta = await this.pool.query(sql)
         return respuesta;

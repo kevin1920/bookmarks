@@ -1,6 +1,9 @@
 let listaLinks = []
 let idActualizar = null
 
+/**
+ * Metodo que obtiene la informacion del usuario. Se utiliza axios para consumir el api de links.
+ */
 let listarLinks = () => {
     axios.get("http://localhost:3000/url").then(respuesta => {
         console.log("Respuesta del Api")
@@ -24,6 +27,9 @@ let listarLinks = () => {
     })
 }
 
+/**
+ * Metodo que captura los datos de las cajas de texto cuando el usuario quiere guardar un nuevo link.
+ */
 let atraparDatos = () => {
     let url = document.getElementById("txtUrl").value
     let nombre = document.getElementById("txtNombre").value
@@ -33,6 +39,10 @@ let atraparDatos = () => {
 
 }
 
+/**
+ * Este metodo valida que no exista el link que se quiere guardar, si no existe entonces se inserta la informacion
+ * en la base de datos por medio de axios, de lo contrario muestra un mensaje avisando que ya existe el link.
+ */
 let guardarLink = () => {
     let link = atraparDatos()
     let linkExiste = listaLinks.find(x => link.url === x.url)
@@ -58,6 +68,10 @@ let guardarLink = () => {
     }
 }
 
+/**
+ * Este metodo elimina un link de la lista de links por medio de axios
+ * @param {*} id 
+ */
 let eliminarLink = id => {
     axios.delete(`http://localhost:3000/eliminar/${id}`).then(respuesta => {
         console.log(respuesta)
@@ -73,6 +87,10 @@ let eliminarLink = id => {
     })
 }
 
+/**
+ * Este metodo carga la informacion del link que se quiere actualizar en las cajas de texto
+ * @param {*} i 
+ */
 let cargarDatos = i => {
     let link = listaLinks[i]
     idActualizar = link.idlink
@@ -83,6 +101,9 @@ let cargarDatos = i => {
     document.getElementById("btnActualizar").style.display = "inline"
 }
 
+/**
+ * Este metodo actualiza un link de la lista por medio de axios
+ */
 let actualizarLink = () => {
     let link = atraparDatos()
     axios.put(`http://localhost:3000/actualizar/${idActualizar}`,link).then(respuesta => {
@@ -103,6 +124,9 @@ let actualizarLink = () => {
     
 }
 
+/**
+ * Este metodo limpia los cambios de las cajas de texto
+ */
 let limpiarCampos = () => {
     document.getElementById("txtUrl").value = ""
     document.getElementById("txtNombre").value = ""
